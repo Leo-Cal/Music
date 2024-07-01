@@ -1,0 +1,36 @@
+.composer-table{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 30px;
+    padding-top: 20px
+}
+
+th, td {
+    border: 2px solid #D9C9A7;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #D9C9A7;
+    text-align: center;
+}
+
+.left-align{
+    text-align: left;
+    padding: 0px 10px;
+}
+
+.center-align{
+    text-align: center;
+}
+
+.table-caption {
+    font-size: 1.2rem;
+}
+
+.td-link {
+    text-decoration: none;
+    color: rgb(39, 8, 8);
+  }
