@@ -48,3 +48,10 @@
   .opus-box button:hover {
     background-color: #61563e;
   }
+
+  .medal-image {
+    margin-left: 10px;
+    width: 15px;
+    height: auto;
+    transform: translateY(5px);
+  }

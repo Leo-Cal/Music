@@ -9,12 +9,24 @@ function OpusBox( { opus, index } ) {
         setExpanded(!expanded);
     }
 
-    console.log(opus)
+    const getMedalImage = (rank) => {
+        if (rank === 1) {
+          return '/gold.png'; // Path to gold medal image
+        } else if (rank === 2) {
+          return '/silver.png'; // Path to silver medal image
+        } else if (rank === 3) {
+          return '/bronze.png'; // Path to bronze medal image
+        }
+        return null;
+      };
+      const medalImage = getMedalImage(index + 1);
 
   return (
     <div className={`opus-box ${expanded ? 'expanded' : ''}`}>
         <p>
-            <b>{getOrdinal(index + 1)} Place</b> <br />
+            <b>{getOrdinal(index + 1)} Place</b> 
+            {medalImage && <img src={medalImage} alt={`${getOrdinal(index+1)} Medal`} className="medal-image" />}
+            <br />
             <b>Name</b>: {opus.opusName}<br />
             <b>Composer</b>: {opus.composer} <br />
             <b>Popularity</b>: {Number(opus.formPopularity).toFixed(2)}<br />
