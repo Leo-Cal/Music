@@ -22,10 +22,9 @@ function ComposerTable() {
           <p>Loading composer list...</p>
         ) : (
           <table id="composerTable">
-            {/* <caption className='table-caption'><b><u>Composers</u></b></caption> */}
             <thead>
               <tr>
-                <th>Name</th>
+                <th>Composer</th>
                 <th>Birth Year</th>
               </tr>
             </thead>

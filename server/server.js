@@ -81,15 +81,18 @@ app.get('/', function(req, res) {
 app.get('/composer', function(req, res) {
 
     var allComposers = JSON.parse(fs.readFileSync('../data/composers.json', 'utf8'));
-
     var composerName = req.query.name || null
 
     if (composerName) {
         // Send all opus from chosen composer
-        var allOpus = JSON.parse(fs.readFileSync('../data/opus.json', 'utf8'));
+        var allOpus = JSON.parse(fs.readFileSync('../data/composer_opus.json', 'utf8'));
+
         const composerOpus = allOpus.filter(item => item.composer === composerName)
-        composerOpus.sort((a, b) => b.popularity - a.popularity);
-        res.json({'Opus': composerOpus})
+        composerOpus.sort((a, b) => b.composerPopularity - a.composerPopularity);
+        res.json({'Opus': composerOpus});
+
+
+            
     }
 
     else {
@@ -101,23 +104,32 @@ app.get('/composer', function(req, res) {
 
 app.get('/form', function(req, res) {
 
-    var allOpus = JSON.parse(fs.readFileSync('../data/opus.json', 'utf8'));
+    var allOpus = JSON.parse(fs.readFileSync('../data/form_opus.json', 'utf8'));
     var formName = req.query.formname || null
 
     if (formName) {
         // Get all opus from the chosen form and rank them by popularity
-        var allOpus = JSON.parse(fs.readFileSync('../data/opus.json', 'utf8'));
         const formOpus = allOpus.filter(item => item.form === formName)
-        formOpus.sort((a, b) => b.popularity - a.popularity);
+        formOpus.sort((a, b) => b.formPopularity - a.formPopularity);
         res.json({'FormOpus': formOpus})
     }
 
     else {
-        const uniqueForms = new Set();
+        const formCount = {};
         allOpus.forEach(obj => {
-            uniqueForms.add(obj['form'])
+            if (formCount[obj['form']]) {
+                formCount[obj['form']]++;  
+            }
+            else {
+                formCount[obj['form']] = 1;
+            }
+
         })
-        formsArr = Array.from(uniqueForms)
+        
+        var entries = Object.entries(formCount)
+        entries.sort( (a, b) => b[1] - a[1])
+        entries = Object.fromEntries(entries)
+        formsArr = Object.keys(entries);
         res.json({'Forms': formsArr})
     }
 }

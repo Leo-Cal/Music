@@ -17,7 +17,7 @@ function FormRanking() {
     }, [formName])
   
     return (
-        <div>
+        <div className='form-ranking-table'>
             <p> Ranking of <b>{formName}</b></p>
 
         {
@@ -25,13 +25,13 @@ function FormRanking() {
             <p>No work found for this musical form</p>
         ) : (
             backData.FormOpus.map((opus, i) => (
-            <p key={i}>
-                <b>{i+1} Place</b> <br/>
-                <b>Name</b>: {opus.opusName}<br />
-                <b>Composer</b>: {opus.composer} <br />
-                <b>Popularity</b>: {Number(opus.popularity).toFixed(2)}<br />
-                <b>Recordings</b>: {opus.recordingCount}
-            </p>
+              <p key={i}>
+                  <b>{i+1} Place</b> <br/>
+                  <b>Name</b>: {opus.opusName}<br />
+                  <b>Composer</b>: {opus.composer} <br />
+                  <b>Popularity</b>: {Number(opus.formPopularity).toFixed(2)}<br />
+                  <b>Recordings</b>: {opus.recordingCount}
+              </p>
             ))
         )
         }

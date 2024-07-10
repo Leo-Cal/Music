@@ -26,12 +26,20 @@ function OpusTable() {
         (typeof backData.Opus === 'undefined') ? (
             <p>No Opus found for this composer</p>
         ) : (
-            backData.Opus.map((composer, i) => (
-            <p key={i}>
-                <b>Opus Name</b>: {composer.opusName}<br />
-                <b>Popularity</b>: {Number(composer.popularity).toFixed(2)}
-            </p>
-            ))
+
+            (backData.Opus.length === 0) ? (
+              <p> No work found for this composer on registered musical forms </p>
+            ) : (
+              backData.Opus.map((composer, i) => (
+                <p key={i}>
+                    <b>Opus Name</b>: {composer.opusName}<br />
+                    <b>Popularity</b>: {Number(composer.composerPopularity).toFixed(2)} <br />
+                    <b>Recordings</b>: {composer.recordingCount}
+                </p>
+                ))
+            )
+              
+
         )
         }
 
