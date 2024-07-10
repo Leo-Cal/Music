@@ -86,13 +86,9 @@ app.get('/composer', function(req, res) {
     if (composerName) {
         // Send all opus from chosen composer
         var allOpus = JSON.parse(fs.readFileSync('../data/composer_opus.json', 'utf8'));
-
         const composerOpus = allOpus.filter(item => item.composer === composerName)
         composerOpus.sort((a, b) => b.composerPopularity - a.composerPopularity);
-        res.json({'Opus': composerOpus});
-
-
-            
+        res.json({'Opus': composerOpus});           
     }
 
     else {
