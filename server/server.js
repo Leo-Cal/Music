@@ -131,5 +131,57 @@ app.get('/form', function(req, res) {
 }
 );
 
+app.get('/trackabout', async function(req, res) {
+
+    const query = req.query
+    if (!query) {
+        return res.status(400).send('No query parameter given')
+    }
+    
+    const opus = query.opus;
+    const searchUrl = 'https://en.wikipedia.org/w/api.php';
+    const searchParams = {
+        action: 'query',
+        list: 'search',
+        format: 'json',
+        srsearch: opus
+    }
+
+    request( { url: searchUrl, qs: searchParams, json: true}, (err, response, searchData) => {
+        if (err) {
+            console.error('Error searching Wikipedia: ', err);
+            return res.status(500).send('Error searching Wikipedia');
+        }
+
+        if (searchData.query.search) {
+            wikiTitle = searchData.query.search[0].title
+            const pageQueryParam = {
+                action: 'query',
+                format: 'json',
+                prop: 'extracts',
+                exintro: true,
+                explaintext: true,
+                titles: wikiTitle
+            }
+
+            request( {url: searchUrl, qs: pageQueryParam, json: true}, (err, response, opusData) => {
+                if (err) {
+                    console.error('Error finding the work page: ', err);
+                    return res.status(404).send('Work page not found in Wikipedia')
+                }
+                if (opusData.query) {
+                    const opusQuery = opusData.query.pages;
+                    const pageKey = Object.keys(opusQuery)[0];
+                    const opusSummary = opusQuery[`${pageKey}`].extract;
+                    return res.json({opus: opus, summary: opusSummary});
+                }
+                else {
+                    return res.status(404).send('No contend found')
+                }       
+            })
+        }  
+    })
+
+});
 console.log('Listening on 8888');
 app.listen(8888);
