@@ -131,7 +131,7 @@ app.get('/form', function(req, res) {
 }
 );
 
-app.get('/trackabout', async function(req, res) {
+app.get('/searchwiki', async function(req, res) {
 
     const query = req.query
     if (!query) {
@@ -139,12 +139,19 @@ app.get('/trackabout', async function(req, res) {
     }
     
     const opus = query.opus;
+    const composer = query.composer;
+    const nameParts = composer.trim().split(' ');
+    const lastName = nameParts[nameParts.length - 1];
+    const wikiSearchParam = `${opus} (${lastName})`
+
+    console.log(wikiSearchParam)
+
     const searchUrl = 'https://en.wikipedia.org/w/api.php';
     const searchParams = {
         action: 'query',
         list: 'search',
         format: 'json',
-        srsearch: opus
+        srsearch: wikiSearchParam
     }
 
     request( { url: searchUrl, qs: searchParams, json: true}, (err, response, searchData) => {
@@ -152,8 +159,8 @@ app.get('/trackabout', async function(req, res) {
             console.error('Error searching Wikipedia: ', err);
             return res.status(500).send('Error searching Wikipedia');
         }
-
-        if (searchData.query.search) {
+        
+        if (searchData.query) {
             wikiTitle = searchData.query.search[0].title
             const pageQueryParam = {
                 action: 'query',
@@ -179,7 +186,10 @@ app.get('/trackabout', async function(req, res) {
                     return res.status(404).send('No contend found')
                 }       
             })
-        }  
+        }
+        else {
+            res.status(404).send('No search query')
+        }
     })
 
 });
