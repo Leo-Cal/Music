@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import './OpusBox.css'
+import OpusDescription from './OpusDescription';
 import { getOrdinal } from '../utils/getOrdinal';
 
 function OpusBox( { opus, index } ) {
@@ -11,15 +12,15 @@ function OpusBox( { opus, index } ) {
 
     const getMedalImage = (rank) => {
         if (rank === 1) {
-          return '/gold.png'; // Path to gold medal image
+          return '/gold.png';
         } else if (rank === 2) {
-          return '/silver.png'; // Path to silver medal image
+          return '/silver.png';
         } else if (rank === 3) {
-          return '/bronze.png'; // Path to bronze medal image
+          return '/bronze.png';
         }
         return null;
       };
-      const medalImage = getMedalImage(index + 1);
+    const medalImage = getMedalImage(index + 1);
 
   return (
     <div className={`opus-box ${expanded ? 'expanded' : ''}`}>
@@ -34,10 +35,7 @@ function OpusBox( { opus, index } ) {
         </p>
         {expanded && (
         <div>
-            {/* Additional information goes here */}
-            <p><b>Year</b>: {opus.year}</p>
-            <p><b>Genre</b>: {opus.genre}</p>
-            {/* Add more fields as needed */}
+            <OpusDescription opus={opus.opusName} composer={opus.composer}/>
         </div>
         )}
         <button onClick={toggleExpand}>
