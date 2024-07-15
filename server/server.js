@@ -179,11 +179,14 @@ app.get('/searchwiki', async function(req, res) {
                     }
                 });
                 // Increase weight in match of Opus number or No. of work
-                songNumbers.forEach(number => {
-                    if (titleNumbers.includes(number)) {
-                        score += 1;
-                    }
-                });
+                if (songNumbers){
+                    songNumbers.forEach(number => {
+                        if (titleNumbers.includes(number)) {
+                            score += 1;
+                        }
+                    });
+                }
+
                 // Assuming a score higher than 3 indicates relevance (i.e. same form name + same catalog + same opus number)
                 if (score > 3 & score > highScore){
                     highScore = score;
