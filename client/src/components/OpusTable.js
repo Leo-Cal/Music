@@ -17,7 +17,6 @@ function OpusTable() {
         )
     }, [composerName])
 
-    console.log(backData)
   
     return (
         <div>

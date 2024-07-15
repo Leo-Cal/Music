@@ -141,12 +141,12 @@ app.get('/searchwiki', async function(req, res) {
     const opus = query.opus;
     const composer = query.composer;
 
-
-    // Parisn the name of the song to find better matches on Wikipedia API
+    // Parse the name of the song to find better matches on Wikipedia API
     const nameParts = composer.trim().split(' ');
-    const songParts = opus.trim().split(' ');
     const lastName = nameParts[nameParts.length - 1];
     const wikiSearchParam = `${opus} (${lastName})`
+
+    // Search Wikipedia for relevant articles
     const searchUrl = 'https://en.wikipedia.org/w/api.php';
     const searchParams = {
         action: 'query',
@@ -154,7 +154,6 @@ app.get('/searchwiki', async function(req, res) {
         format: 'json',
         srsearch: wikiSearchParam
     }
-
     request( { url: searchUrl, qs: searchParams, json: true}, (err, response, searchData) => {
         if (err) {
             console.error('Error searching Wikipedia: ', err);
@@ -162,7 +161,46 @@ app.get('/searchwiki', async function(req, res) {
         }
         
         if (searchData.query) {
-            wikiTitle = searchData.query.search[0].title
+            // Find the best matching article
+            const titles = searchData.query.search.map(article => article.title)
+            const songParts = opus.toLowerCase().replace(/\./g,'').replace(/\,/g,'').split(/\s+/);
+            const songNumbers = opus.match(/\d+/g);
+            let highScore = 0;
+            let bestMatch = titles[0];
+            console.log(titles)
+            titles.forEach(title => {
+                let score = 0;
+                const titleParts = title.toLowerCase().replace(/\./g,'').replace(/\,/g,'').split(/\s+/);
+                const titleNumbers = title.match(/\d+/g) || [];
+                // Calculate score based on intersection of parts in the strings
+                songParts.forEach(part => {
+                    if (titleParts.includes(part)){
+                        score++
+                    }
+                });
+                // Increase weight in match of Opus number or No. of work
+                songNumbers.forEach(number => {
+                    if (titleNumbers.includes(number)) {
+                        score += 1;
+                    }
+                });
+                // Assuming a score higher than 3 indicates relevance (i.e. same form name + same catalog + same opus number)
+                if (score > 3 & score > highScore){
+                    highScore = score;
+                    bestMatch = title;
+                }
+            });
+
+            // When the best match is the list of compositions from the composer, change to the general composer wiki
+            if (bestMatch.includes('List of')){
+                if (titles.includes(composer)){
+                    bestMatch = composer
+                }
+                
+            }
+
+            // Get the summary of the best matched Wikipedia article
+            wikiTitle = bestMatch
             const pageQueryParam = {
                 action: 'query',
                 format: 'json',
