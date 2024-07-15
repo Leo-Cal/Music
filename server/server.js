@@ -140,12 +140,13 @@ app.get('/searchwiki', async function(req, res) {
     
     const opus = query.opus;
     const composer = query.composer;
+
+
+    // Parisn the name of the song to find better matches on Wikipedia API
     const nameParts = composer.trim().split(' ');
+    const songParts = opus.trim().split(' ');
     const lastName = nameParts[nameParts.length - 1];
     const wikiSearchParam = `${opus} (${lastName})`
-
-    console.log(wikiSearchParam)
-
     const searchUrl = 'https://en.wikipedia.org/w/api.php';
     const searchParams = {
         action: 'query',

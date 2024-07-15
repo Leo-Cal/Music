@@ -21,16 +21,15 @@ function OpusBox( { opus, index } ) {
         return null;
       };
     const medalImage = getMedalImage(index + 1);
+    const popularity = opus.formPopularity ? opus.formPopularity : opus.composerPopularity
 
   return (
     <div className={`opus-box ${expanded ? 'expanded' : ''}`}>
         <p>
-            <b>{getOrdinal(index + 1)} Place</b> 
-            {medalImage && <img src={medalImage} alt={`${getOrdinal(index+1)} Medal`} className="medal-image" />}
-            <br />
+            <b>{getOrdinal(index + 1)} Place</b> {medalImage && <img src={medalImage} alt={`${getOrdinal(index+1)} Medal`} className="medal-image" />}<br />
             <b>Name</b>: {opus.opusName}<br />
             <b>Composer</b>: {opus.composer} <br />
-            <b>Popularity</b>: {Number(opus.formPopularity).toFixed(2)}<br />
+            <b>Popularity</b>: {Number(popularity).toFixed(2)}<br />
             <b>Recordings</b>: {opus.recordingCount}
         </p>
         {expanded && (

@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import { useLocation } from 'react-router-dom';
+import OpusBox from './OpusBox';
 
 function OpusTable() {
     const [backData, setBackData] = useState([{}]);
@@ -31,11 +32,7 @@ function OpusTable() {
               <p> No work found for this composer on registered musical forms </p>
             ) : (
               backData.Opus.map((composer, i) => (
-                <p key={i}>
-                    <b>Opus Name</b>: {composer.opusName}<br />
-                    <b>Popularity</b>: {Number(composer.composerPopularity).toFixed(2)} <br />
-                    <b>Recordings</b>: {composer.recordingCount}
-                </p>
+                <OpusBox key={i} opus={composer} index={i}/>
                 ))
             )
               
