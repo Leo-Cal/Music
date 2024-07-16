@@ -29,7 +29,7 @@ function FormTable() {
             <tbody> 
               {backData.Forms.map((format, i) => (
                 <tr key={i}>
-                  <td class='left-align'><Link className='td-link' to={`http://localhost:3000/form/${format}`}>{format}<br></br></Link> </td>
+                  <td className='left-align'><Link className='td-link' to={`http://localhost:3000/form/${format}`}>{format}<br></br></Link> </td>
                 </tr>
               ))}
             </tbody>

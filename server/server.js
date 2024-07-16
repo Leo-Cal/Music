@@ -6,12 +6,12 @@ const cookieParser = require('cookie-parser')
 const fs = require('fs');
 var path = require('path')
 const cors = require('cors');
-var AWS = require('aws-sdk');
-var awsConfig = new AWS.Config({
-    credentials: {accessKeyId:'', secretAccessKey:''},
-    region: 'us-east-1'
-});
-var ddb = new AWS.DynamoDB(awsConfig);
+// var AWS = require('aws-sdk');
+// var awsConfig = new AWS.Config({
+//     credentials: {accessKeyId:'', secretAccessKey:''},
+//     region: 'us-east-1'
+// });
+// var ddb = new AWS.DynamoDB(awsConfig);
 
 // Credentials of Spotify App
 var client_id = ''
@@ -51,11 +51,6 @@ app.get('/callback', function(req, res) {
         if (!error && response.statusCode === 200) {
             var access_token = body.access_token;
             var refresh_token = body.refresh_token;
-            // res.redirect('/#' + 
-            //     querystring.stringify({
-            //         access_token: access_token,
-            //         refresh_token: refresh_token
-            //     }));
             res.cookie('access_token', access_token, {
                 expires: new Date(Date.now() + 900000)
             })
@@ -72,11 +67,6 @@ app.get('/callback', function(req, res) {
     });
 });
 
-app.get('/', function(req, res) {
-    // console.log(req.cookies.access_token)
-    res.sendFile('homepage.html', {root: __dirname})
-
-});
 
 app.get('/composer', function(req, res) {
 
@@ -167,7 +157,6 @@ app.get('/searchwiki', async function(req, res) {
             const songNumbers = opus.match(/\d+/g);
             let highScore = 0;
             let bestMatch = titles[0];
-            console.log(titles)
             titles.forEach(title => {
                 let score = 0;
                 const titleParts = title.toLowerCase().replace(/\./g,'').replace(/\,/g,'').split(/\s+/);
@@ -235,5 +224,8 @@ app.get('/searchwiki', async function(req, res) {
     })
 
 });
+
 console.log('Listening on 8888');
 app.listen(8888);
+
+module.exports = app;
