@@ -3,7 +3,7 @@ name: Server CI/CD
 on:
   push:
     branches:
-      - main  # or your main branch name
+      - master  # or your main branch name
 
 jobs:
   build-and-deploy:
