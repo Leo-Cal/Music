@@ -1,4 +1,4 @@
-const app = require('../server');
+const app = require('../index');
 const request = require('supertest');
 const forms = [
     "Symphony",
