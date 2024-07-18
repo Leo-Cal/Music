@@ -34,7 +34,7 @@ function ComposerTable() {
             <tbody> 
               {backData.Composers.map((composer, i) => (
                 <tr key={i}>
-                  <td class='left-align'><Link className='td-link' to={`http://localhost:3000/composer/${composer.name}`}>{composer.name}<br></br></Link> </td>
+                  <td class='left-align'><Link className='td-link' to={`${apiUrl}/composer/${composer.name}`}>{composer.name}<br></br></Link> </td>
                   <td class='center-align'>{composer.birthyear}</td>
                 </tr>
               ))}

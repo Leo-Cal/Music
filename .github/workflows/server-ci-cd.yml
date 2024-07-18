@@ -18,6 +18,18 @@ jobs:
         with:
           node-version: '20.13.1'
 
+      - name: Create data directory
+        run: mkdir -p server/server-data
+
+      - name: Write composer_opus.json
+        run: echo "${{ secrets.COMPOSERS }}" > server/server-data/composers.json
+
+      - name: Write composer_opus.json
+        run: echo "${{ secrets.COMPOSER_OPUS }}" > server/server-data/composer_opus.json
+
+      - name: Write form_opus.json
+        run: echo "${{ secrets.FORM_OPUS }}" > server/server-data/form_opus.json
+      
       - name: Install dependencies
         run: |
           cd server
