@@ -26,9 +26,9 @@ jobs:
       - name: Copy mock data
         run: |
           mkdir -p server/server-data
-          cp tests/mock_data/composers.json server/server-data/
-          cp tests/mock_data/composer_opus.json server/server-data/
-          cp tests/mock_data/form_opus.json server/server-data/        
+          cp server/tests/mock_data/composers.json server/server-data/
+          cp server/tests/mock_data/composer_opus.json server/server-data/
+          cp server/tests/mock_data/form_opus.json server/server-data/        
         
       - name: Run tests
         run: | 
