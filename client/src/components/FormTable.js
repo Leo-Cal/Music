@@ -14,7 +14,7 @@ function FormTable() {
         response => response.json()).then(
           data => {setBackData(data)}
         )
-    }, [])
+    }, [apiUrl])
   
     return (
       <div className='form-table'>

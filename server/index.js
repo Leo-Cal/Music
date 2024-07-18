@@ -13,6 +13,12 @@ var client_id = ''
 var client_secret = ''
 var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
 
+const corsOptions = {
+    origin: 'https://music-pearls.vercel.app/',
+    optionsSuccessStatus: 200
+  };
+
+
 var app = express();
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));

@@ -25,5 +25,5 @@ jobs:
 
       - name: Run tests
         run: | 
-        cd server
-        npm test
+          cd server
+          npm test
