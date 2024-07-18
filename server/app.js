@@ -71,12 +71,28 @@ app.get('/callback', function(req, res) {
 
 app.get('/composer', function(req, res) {
 
-    var allComposers = JSON.parse(fs.readFileSync('./server-data/composers.json', 'utf8'));
+    let allComposers = [];
+    let allOpus = []
     var composerName = req.query.name || null
 
+    try {
+        const composersJson = fs.readFileSync('./server-data/composers.json', 'utf8');
+        allComposers = JSON.parse(composersJson);
+    } catch (error) {
+        console.error('Error reading composer list: ', error);
+        res.status(500).send('Server Error');
+    }
+    
     if (composerName) {
         // Send all opus from chosen composer
-        var allOpus = JSON.parse(fs.readFileSync('./server-data/composer_opus.json', 'utf8'));
+        try {
+            const opusJson = fs.readFileSync('./server-data/composer_opus.json', 'utf8');
+            allOpus = JSON.parse(opusJson)
+
+        } catch (error) {
+            console.error(`Error reading ${composerName} opus: `, error);
+            res.status(500).send('Server Error')
+        }
         const composerOpus = allOpus.filter(item => item.composer === composerName)
         composerOpus.sort((a, b) => b.composerPopularity - a.composerPopularity);
         res.json({'Opus': composerOpus});           
@@ -91,8 +107,16 @@ app.get('/composer', function(req, res) {
 
 app.get('/form', function(req, res) {
 
-    var allOpus = JSON.parse(fs.readFileSync('./server-data/form_opus.json', 'utf8'));
+    let allOpus = [];
     var formName = req.query.formname || null
+    
+    try {
+        const opusJson = fs.readFileSync('./server-data/form_opus.json', 'utf8');
+        allOpus = JSON.parse(opusJson);
+    } catch (error) {
+        console.error('Error reading musical form list: ', error);
+        res.status(500).send('Server Error');
+    }
 
     if (formName) {
         // Get all opus from the chosen form and rank them by popularity
@@ -110,7 +134,6 @@ app.get('/form', function(req, res) {
             else {
                 formCount[obj['form']] = 1;
             }
-
         })
         
         var entries = Object.entries(formCount)
