@@ -17,24 +17,19 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '20.13.1'
-
-      - name: Create data directory
-        run: mkdir -p server/server-data
-
-      - name: Write composer_opus.json
-        run: echo "${{ secrets.COMPOSERS }}" > server/server-data/composers.json
-
-      - name: Write composer_opus.json
-        run: echo "${{ secrets.COMPOSER_OPUS }}" > server/server-data/composer_opus.json
-
-      - name: Write form_opus.json
-        run: echo "${{ secrets.FORM_OPUS }}" > server/server-data/form_opus.json
       
       - name: Install dependencies
         run: |
           cd server
           npm install
 
+      - name: Copy mock data
+        run: |
+          mkdir -p server/server-data
+          cp tests/mock_data/composers.json server/server-data/
+          cp tests/mock_data/composer_opus.json server/server-data/
+          cp tests/mock_data/form_opus.json server/server-data/        
+        
       - name: Run tests
         run: | 
           cd server

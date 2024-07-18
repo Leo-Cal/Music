@@ -1,0 +1,29 @@
+{
+    "composers": [
+        {
+            "name": "George Frideric Handel",
+            "id": "1QL7yTHrdahRMpvNtn6rI2",
+            "birthyear": 1685
+        },
+        {
+            "name": "Johann Sebastian Bach",
+            "id": "5aIqB5nVVvmFsvSdExz408",
+            "birthyear": 1685
+        },
+        {
+            "name": "Joseph Haydn",
+            "id": "656RXuyw7CE0dtjdPgjJV6",
+            "birthyear": 1732
+        },
+        {
+            "name": "Wolfgang Amadeus Mozart",
+            "id": "4NJhFmfw43RLBLjQvxDuRS",
+            "birthyear": 1756
+        },
+        {
+            "name": "Ludwig van Beethoven",
+            "id": "2wOqMjp9TyABvtHdOSOTUS",
+            "birthyear": 1770
+        }
+    ]
+}
