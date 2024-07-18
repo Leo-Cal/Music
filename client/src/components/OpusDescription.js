@@ -4,6 +4,11 @@ function OpusDescription( {composer, opus} ) {
 
     const [description, setDescription] = useState('');
     const [error, setError] = useState('');
+    const apiUrl = process.env.NODE_ENV === 'production'
+    ? process.env.REACT_APP_API_BASE_URL
+    : process.env.REACT_APP_LOCAL_API_BASE_URL;
+
+
     useEffect ( () => {
         const fetchDescription = async () => {
             try {
@@ -11,7 +16,7 @@ function OpusDescription( {composer, opus} ) {
                     opus: opus,
                     composer: composer
                 });
-                const response = await fetch(`http://localhost:8888/searchwiki?${queryParams}`);
+                const response = await fetch(`${apiUrl}/searchwiki?${queryParams}`);
                 const data = await response.json();
                 setDescription(data.summary);
                 setError('');
@@ -21,7 +26,7 @@ function OpusDescription( {composer, opus} ) {
             }
         }
         fetchDescription();
-    }, [composer, opus]);
+    }, [composer, opus, apiUrl]);
 
     return (
     <div>

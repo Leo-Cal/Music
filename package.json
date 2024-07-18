@@ -6,7 +6,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "vercel": "vercel",
     "vercel-dev": "vercel dev",
-    "vercel-debug": "vercel build --debug"
+    "vercel-debug": "vercel build --debug",
+    "vercel-link": "vercel link"
   },
   "keywords": [],
   "author": "",
@@ -14,5 +15,8 @@
   "description": "",
   "devDependencies": {
     "vercel": "^35.0.3"
+  },
+  "dependencies": {
+    "heroku": "^9.0.0"
   }
 }

@@ -14,5 +14,8 @@ jspm_packages/
 
 
 /data
-
+/server/server-data
+/server/node_modules
+/server/.gitignore
 .vercel
+/client/.env

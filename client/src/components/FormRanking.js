@@ -4,6 +4,9 @@ import OpusBox from './OpusBox';
 
 function FormRanking() {
     const [backData, setBackData] = useState({ FormOpus: [] });
+    const apiUrl = process.env.NODE_ENV === 'production'
+    ? process.env.REACT_APP_API_BASE_URL
+    : process.env.REACT_APP_LOCAL_API_BASE_URL;
 
     const location = useLocation();
     const decodedPath = decodeURIComponent(location.pathname || '');
@@ -11,10 +14,10 @@ function FormRanking() {
     const formName = pathParts[pathParts.length - 1]
   
     useEffect ( () => {
-      fetch(`http://localhost:8888/form/?formname=${formName}`)
+      fetch(`${apiUrl}/form/?formname=${formName}`)
       .then(response => response.json())
       .then(data => {setBackData(data)})
-    }, [formName])
+    }, [formName, apiUrl])
   
     return (
       <div className='form-ranking-table'>

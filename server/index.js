@@ -6,12 +6,7 @@ const cookieParser = require('cookie-parser')
 const fs = require('fs');
 var path = require('path')
 const cors = require('cors');
-// var AWS = require('aws-sdk');
-// var awsConfig = new AWS.Config({
-//     credentials: {accessKeyId:'', secretAccessKey:''},
-//     region: 'us-east-1'
-// });
-// var ddb = new AWS.DynamoDB(awsConfig);
+const PORT = process.env.PORT || 8888;
 
 // Credentials of Spotify App
 var client_id = ''
@@ -70,12 +65,12 @@ app.get('/callback', function(req, res) {
 
 app.get('/composer', function(req, res) {
 
-    var allComposers = JSON.parse(fs.readFileSync('../data/composers.json', 'utf8'));
+    var allComposers = JSON.parse(fs.readFileSync('./server-data/composers.json', 'utf8'));
     var composerName = req.query.name || null
 
     if (composerName) {
         // Send all opus from chosen composer
-        var allOpus = JSON.parse(fs.readFileSync('../data/composer_opus.json', 'utf8'));
+        var allOpus = JSON.parse(fs.readFileSync('./server-data/composer_opus.json', 'utf8'));
         const composerOpus = allOpus.filter(item => item.composer === composerName)
         composerOpus.sort((a, b) => b.composerPopularity - a.composerPopularity);
         res.json({'Opus': composerOpus});           
@@ -90,7 +85,7 @@ app.get('/composer', function(req, res) {
 
 app.get('/form', function(req, res) {
 
-    var allOpus = JSON.parse(fs.readFileSync('../data/form_opus.json', 'utf8'));
+    var allOpus = JSON.parse(fs.readFileSync('./server-data/form_opus.json', 'utf8'));
     var formName = req.query.formname || null
 
     if (formName) {
@@ -225,7 +220,7 @@ app.get('/searchwiki', async function(req, res) {
 
 });
 
-// console.log('Listening on 8888');
-// app.listen(8888);
+console.log(`Listening on ${PORT}`);
+app.listen(PORT);
 
 module.exports = app;

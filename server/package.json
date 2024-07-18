@@ -5,7 +5,8 @@
   "scripts": {
     "test": "jest --detectOpenHandles",
     "start": "node index.js",
-    "server": "nodemon index.js"
+    "server": "nodemon index.js",
+    "vercel": "vercel"
   },
   "author": "",
   "license": "ISC",

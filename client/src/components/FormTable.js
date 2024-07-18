@@ -5,9 +5,12 @@ import './FormTable.css'
 
 function FormTable() {
     const [backData, setBackData] = useState([{}]);
+    const apiUrl = process.env.NODE_ENV === 'production'
+    ? process.env.REACT_APP_API_BASE_URL
+    : process.env.REACT_APP_LOCAL_API_BASE_URL;
 
     useEffect ( () => {
-      fetch('http://localhost:8888/form').then(
+      fetch(`${apiUrl}/form`).then(
         response => response.json()).then(
           data => {setBackData(data)}
         )

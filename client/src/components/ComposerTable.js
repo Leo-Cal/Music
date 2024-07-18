@@ -6,13 +6,16 @@ import './ComposerTable.css';
 function ComposerTable() {
 
   const [backData, setBackData] = useState([{}]);
+  const apiUrl = process.env.NODE_ENV === 'production'
+  ? process.env.REACT_APP_API_BASE_URL
+  : process.env.REACT_APP_LOCAL_API_BASE_URL;
 
   useEffect ( () => {
-    fetch('http://localhost:8888/composer').then(
+    fetch(`${apiUrl}/composer`).then(
       response => response.json()).then(
         data => {setBackData(data)}
       )
-  }, [])
+  }, [apiUrl])
 
   return (
     <div className='composer-table'>

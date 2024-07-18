@@ -4,6 +4,10 @@ import OpusBox from './OpusBox';
 
 function OpusTable() {
     const [backData, setBackData] = useState([{}]);
+    const apiUrl = process.env.NODE_ENV === 'production'
+    ? process.env.REACT_APP_API_BASE_URL
+    : process.env.REACT_APP_LOCAL_API_BASE_URL;
+
 
     const location = useLocation();
     const decodedPath = decodeURIComponent(location.pathname || '');
@@ -11,11 +15,11 @@ function OpusTable() {
     const composerName = pathParts[pathParts.length - 1]
   
     useEffect ( () => {
-      fetch(`http://localhost:8888/composer/?name=${composerName}`).then(
+      fetch(`${apiUrl}/composer/?name=${composerName}`).then(
         response => response.json()).then(
           data => {setBackData(data)}
         )
-    }, [composerName])
+    }, [composerName, apiUrl])
 
   
     return (
