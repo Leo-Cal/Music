@@ -6,6 +6,7 @@ import Home from './components/Home'
 import OpusTable  from './components/OpusTable';
 import FormTable from './components/FormTable';
 import FormRanking from './components/FormRanking';
+import About from './components/About';
 
 const App = () => {
   return (
@@ -38,6 +39,7 @@ const App = () => {
           <Route path={'/composer/:name'} element={<OpusTable/>} />
           <Route path="/form/*" element={<FormTable/>} />
           <Route path={'/form/:name'} element={<FormRanking/>} />
+          <Route exact path='/about' element={<About/>}/>
         </Routes>
 
       </div>

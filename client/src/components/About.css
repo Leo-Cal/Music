@@ -1,0 +1,38 @@
+.about-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .about-section {
+    margin-bottom: 20px;
+  }
+  
+  .about-section h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .about-section p,
+  .about-section ul {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  .about-section ul {
+    list-style-type: disc;
+    margin-left: 20px;
+  }
+  
+  .about-section ul li {
+    margin-bottom: 5px;
+  }
+  
+  .about-section a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .about-section a:hover {
+    text-decoration: underline;
+  }
