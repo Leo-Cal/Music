@@ -44,13 +44,13 @@ function About() {
             </ul>
           </section>
     
-          <section className="about-section">
+          {/* <section className="about-section">
             <h2>Contact Us</h2>
             <p>
               Have questions or want to learn more about our services? Feel free to reach out to us at
               <a href="mailto:contact@ourcompany.com"> contact@ourcompany.com</a>.
             </p>
-          </section>
+          </section> */}
         </div>
       );
 }
