@@ -10,11 +10,6 @@ function ComposerTable() {
   ? process.env.REACT_APP_API_BASE_URL
   : process.env.REACT_APP_LOCAL_API_BASE_URL;
 
-  const routeUrl = process.env.NODE_ENV === 'production' 
-  ? process.env.REACT_ROUTE_PROD 
-  : process.env.REACT_ROUTE_DEV
-  
-
   useEffect ( () => {
     fetch(`${apiUrl}/composer`).then(
       response => response.json()).then(

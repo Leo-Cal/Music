@@ -7,6 +7,7 @@ import OpusTable  from './components/OpusTable';
 import FormTable from './components/FormTable';
 import FormRanking from './components/FormRanking';
 import About from './components/About';
+import { Analytics } from '@vercel/analytics/react';
 
 const App = () => {
   return (
@@ -42,8 +43,10 @@ const App = () => {
           <Route exact path='/about' element={<About/>}/>
         </Routes>
 
+        <Analytics />
       </div>
     </Router>
+    
   )
 }
 
