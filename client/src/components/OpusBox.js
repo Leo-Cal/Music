@@ -20,11 +20,18 @@ function OpusBox( { opus, index } ) {
         }
         return null;
       };
+
+    const handleBoxClick = (e) => {
+      if (e.target.tagName !== 'BUTTON') {
+          toggleExpand();
+      }
+    };
+
     const medalImage = getMedalImage(index + 1);
     const popularity = opus.formPopularity ? opus.formPopularity : opus.composerPopularity
 
   return (
-    <div className={`opus-box ${expanded ? 'expanded' : ''}`}>
+    <div className={`opus-box ${expanded ? 'expanded' : ''}`} onClick={handleBoxClick}>
         <p>
             <b>{getOrdinal(index + 1)} Place</b> {medalImage && <img src={medalImage} alt={`${getOrdinal(index+1)} Medal`} className="medal-image" />}<br />
             <b>Name</b>: {opus.opusName}<br />
@@ -37,9 +44,9 @@ function OpusBox( { opus, index } ) {
             <OpusDescription opus={opus.opusName} composer={opus.composer}/>
         </div>
         )}
-        <button onClick={toggleExpand}>
-            {expanded ? 'Collapse' : 'Show more'}
-        </button>
+            <button onClick={(e) => { e.stopPropagation(); toggleExpand(); }}>
+                {expanded ? 'Collapse' : 'Show more'}
+            </button>
     </div>
   );
 };

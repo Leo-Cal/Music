@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser')
 const fs = require('fs');
 var path = require('path')
 const cors = require('cors');
+const { title } = require('process');
 const PORT = process.env.PORT || 8888;
 
 // Credentials of Spotify App
@@ -67,7 +68,6 @@ app.get('/callback', function(req, res) {
         };
     });
 });
-
 
 app.get('/composer', function(req, res) {
 
@@ -145,20 +145,24 @@ app.get('/form', function(req, res) {
 }
 );
 
-app.get('/searchwiki', async function(req, res) {
+app.get('/searchwikiopus', async function(req, res) {
 
     const query = req.query
+    let wikiSearchParam = ''
     if (!query) {
         return res.status(400).send('No query parameter given')
     }
     
-    const opus = query.opus;
-    const composer = query.composer;
+    const opus = query.opus || null;
+    const composer = query.composer || null;
 
     // Parse the name of the song to find better matches on Wikipedia API
+    if (!composer){
+        return res.status(400).send('Bad Request. No composer name')
+    }
     const nameParts = composer.trim().split(' ');
     const lastName = nameParts[nameParts.length - 1];
-    const wikiSearchParam = `${opus} (${lastName})`
+    wikiSearchParam = `${opus} (${lastName})`
 
     // Search Wikipedia for relevant articles
     const searchUrl = 'https://en.wikipedia.org/w/api.php';
@@ -168,6 +172,7 @@ app.get('/searchwiki', async function(req, res) {
         format: 'json',
         srsearch: wikiSearchParam
     }
+    
     request( { url: searchUrl, qs: searchParams, json: true}, (err, response, searchData) => {
         if (err) {
             console.error('Error searching Wikipedia: ', err);
@@ -175,6 +180,7 @@ app.get('/searchwiki', async function(req, res) {
         }
         
         if (searchData.query) {
+
             // Find the best matching article
             const titles = searchData.query.search.map(article => article.title)
             const songParts = opus.toLowerCase().replace(/\./g,'').replace(/\,/g,'').split(/\s+/);
@@ -234,7 +240,7 @@ app.get('/searchwiki', async function(req, res) {
                 if (opusData.query) {
                     const opusQuery = opusData.query.pages;
                     const pageKey = Object.keys(opusQuery)[0];
-                    const opusSummary = opusQuery[`${pageKey}`].extract;
+                    const opusSummary = opusQuery[`${pageKey}`].extract.split('\n')[0];;
                     return res.json({opus: opus, summary: opusSummary});
                 }
                 else {
@@ -248,5 +254,58 @@ app.get('/searchwiki', async function(req, res) {
     })
 
 });
+
+app.get('/searchwikicomposer', async function(req, res) {
+    const query = req.query
+    const composer = query.composer || null;
+    const searchUrl = 'https://en.wikipedia.org/w/api.php';
+    if (!composer){
+        return res.status(400).send('Bad Request. No composer name')
+    }
+    else{
+        const pageQueryParam = {
+            action: 'query',
+            format: 'json',
+            prop: 'extracts',
+            exintro: true,
+            explaintext: true,
+            titles: composer
+        }
+        request( {url: searchUrl, qs: pageQueryParam, json: true}, (err, response, wikiData) => {
+            if (err) {
+                console.error('Error finding the work page: ', err);
+                return res.status(400).send('Error fetching Wikipedia')
+            }
+            if (wikiData.query) {
+                const wikiQuery = wikiData.query.pages;
+                const pageKey = Object.keys(wikiQuery)[0];
+                const wikiSummary = wikiQuery[`${pageKey}`].extract.split('\n')[0];
+
+                return res.json({composer: composer, summary: wikiSummary});
+            }
+            else {
+                return res.status(404).send(`${composer} article not found in Wikipedia`)
+            }
+        })
+    }
+});
+
+app.get('/formdescription', async function(req, res) {
+    var formName = req.query.form || null
+    try {
+        const formsJson = fs.readFileSync('./server-data/forms.json', 'utf8');
+        allForms = JSON.parse(formsJson).forms;
+    } catch (error) {
+        console.error('Error reading forms list: ', error);
+        res.status(500).send('Server Error');
+    }
+    if (formName) {
+        const formEntry = allForms.find(item => item.formName === formName)
+        formDescription = formEntry ? formEntry.description : "Description not found";
+        return res.json({form: formName, description: formDescription})
+    }
+});
+
+
 
 module.exports = app;

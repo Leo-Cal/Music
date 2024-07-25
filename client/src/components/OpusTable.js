@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react'
 import { useLocation } from 'react-router-dom';
 import OpusBox from './OpusBox';
+import './OpusTable.css'
 
 function OpusTable() {
     const [backData, setBackData] = useState([{}]);
+    const [description, setDescription] = useState('');
     const apiUrl = process.env.NODE_ENV === 'production'
     ? process.env.REACT_APP_API_BASE_URL
     : process.env.REACT_APP_LOCAL_API_BASE_URL;
@@ -19,12 +21,21 @@ function OpusTable() {
         response => response.json()).then(
           data => {setBackData(data)}
         )
+
+        fetch(`${apiUrl}/searchwikicomposer/?composer=${composerName}`)
+        .then(response => response.json())
+        .then(data => { setDescription(data.summary); });
     }, [composerName, apiUrl])
 
   
     return (
         <div>
-            <p><b>{composerName}</b> Opus Table</p>
+          <div className='description'>
+            <h3>{composerName}</h3>
+            <p>{description}</p>
+          </div>
+          
+
 
         {
         (typeof backData.Opus === 'undefined') ? (
