@@ -6,7 +6,8 @@
     "test": "jest --detectOpenHandles",
     "start": "node index.js",
     "server": "nodemon index.js",
-    "vercel": "vercel"
+    "vercel": "vercel",
+    "heroku-postbuild": "cd server && npm install && npm run build"
   },
   "author": "",
   "license": "ISC",
