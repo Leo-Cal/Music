@@ -103,7 +103,7 @@ app.get('/composer', function(req, res) {
     }
 
     else {
-        let composerInfo = allComposers.composers.map(c => ({name:c.name, birthyear:c.birthyear}));
+        let composerInfo = allComposers.composers.map(c => ({name:c.name, birthyear:c.birthyear, period: c.period}));
         composerInfo.sort((a,b) => a.birthyear - b.birthyear)
         res.json({'Composers': composerInfo})
     }

@@ -19,3 +19,4 @@ jspm_packages/
 /server/.gitignore
 .vercel
 /client/.env
+*.DS_Store
