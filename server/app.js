@@ -74,7 +74,6 @@ app.get('/callback', function(req, res) {
 });
 
 app.get('/composer', function(req, res) {
-
     let allComposers = [];
     let allOpus = []
     var composerName = req.query.name || null
@@ -88,18 +87,58 @@ app.get('/composer', function(req, res) {
     }
     
     if (composerName) {
-        // Send all opus from chosen composer
         try {
             const opusJson = fs.readFileSync('./server-data/composer_opus.json', 'utf8');
             allOpus = JSON.parse(opusJson)
-
         } catch (error) {
             console.error(`Error reading ${composerName} opus: `, error);
             res.status(500).send('Server Error')
         }
         const composerOpus = allOpus.filter(item => item.composer === composerName)
+        
+        // Calculate weighted score for each form
+        const formStats = {};
+        
+        composerOpus.forEach(opus => {
+            if (!formStats[opus.form]) {
+                formStats[opus.form] = {
+                    totalPopularity: 0,
+                    pieceCount: 0,
+                    totalRecordings: 0
+                };
+            }
+            formStats[opus.form].totalPopularity += opus.composerPopularity;
+            formStats[opus.form].pieceCount += 1;
+            formStats[opus.form].totalRecordings += opus.recordingCount;
+        });
+
+        // Calculate weighted scores
+        const formScores = Object.entries(formStats).map(([form, stats]) => {
+            const avgPopularity = stats.totalPopularity / stats.pieceCount;
+            const pieceCountWeight = Math.log2(stats.pieceCount + 1); // logarithmic scaling for piece count
+            const recordingsWeight = Math.log2(stats.totalRecordings + 1); // logarithmic scaling for recordings
+            
+            // Weighted score formula:
+            // (Average Popularity) * (log2(pieces + 1)) * (log2(recordings + 1))
+            const weightedScore = avgPopularity * pieceCountWeight * recordingsWeight;
+            
+            return {
+                form,
+                score: weightedScore
+            };
+        });
+
+        // Sort by weighted score and get top 3 forms
+        const topForms = formScores
+            .sort((a, b) => b.score - a.score)
+            .slice(0, 3)
+            .map(item => item.form);
+
         composerOpus.sort((a, b) => b.composerPopularity - a.composerPopularity);
-        res.json({'Opus': composerOpus});           
+        res.json({
+            'Opus': composerOpus,
+            'TopForms': topForms
+        });           
     }
 
     else {
@@ -126,10 +165,53 @@ app.get('/form', function(req, res) {
     }
 
     if (formName) {
-        // Get all opus from the chosen form and rank them by popularity
+        // Get all opus from the chosen form
         const formOpus = allOpus.filter(item => item.form === formName)
+        
+        // Calculate weighted score for each composer
+        const composerStats = {};
+        
+        formOpus.forEach(opus => {
+            if (!composerStats[opus.composer]) {
+                composerStats[opus.composer] = {
+                    totalPopularity: 0,
+                    pieceCount: 0,
+                    totalRecordings: 0
+                };
+            }
+            composerStats[opus.composer].totalPopularity += opus.formPopularity;
+            composerStats[opus.composer].pieceCount += 1;
+            composerStats[opus.composer].totalRecordings += opus.recordingCount;
+        });
+
+        // Calculate weighted scores for composers
+        const composerScores = Object.entries(composerStats).map(([composer, stats]) => {
+            const avgPopularity = stats.totalPopularity / stats.pieceCount;
+            const pieceCountWeight = Math.log2(stats.pieceCount + 1);
+            const recordingsWeight = Math.log2(stats.totalRecordings + 1);
+            
+            // Same weighted score formula as for forms
+            const weightedScore = avgPopularity * pieceCountWeight * recordingsWeight;
+            
+            return {
+                composer,
+                score: weightedScore
+            };
+        });
+
+        // Sort by weighted score and get top 3 composers
+        const topComposers = composerScores
+            .sort((a, b) => b.score - a.score)
+            .slice(0, 3)
+            .map(item => item.composer);
+
+        // Sort opus by popularity for the main list
         formOpus.sort((a, b) => b.formPopularity - a.formPopularity);
-        res.json({'FormOpus': formOpus})
+        
+        res.json({
+            'FormOpus': formOpus,
+            'TopComposers': topComposers
+        });
     }
     else {
         // Count occurrences of each form
