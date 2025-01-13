@@ -24,6 +24,7 @@
     line-height: 1.5;
     margin: 0;
     color: #414141;
+    display: inline;
 }
 
 /* Add media queries for mobile */
@@ -113,4 +114,20 @@
         font-size: 0.75rem;
         letter-spacing: 0.3px;
     }
+}
+
+.wiki-link {
+    display: inline;
+    margin-left: 1rem;
+}
+
+.wiki-link a {
+    color: #0066cc;
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding-left: 0.5rem;
+}
+
+.wiki-link a:hover {
+    text-decoration: underline;
 }
