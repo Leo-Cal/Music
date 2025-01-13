@@ -103,23 +103,26 @@ app.get('/composer', function(req, res) {
     }
 
     else {
-        let composerInfo = allComposers.composers.map(c => ({name:c.name, birthyear:c.birthyear}));
+        let composerInfo = allComposers.composers.map(c => ({name:c.name, birthyear:c.birthyear, period: c.period}));
         composerInfo.sort((a,b) => a.birthyear - b.birthyear)
         res.json({'Composers': composerInfo})
     }
 })
 
 app.get('/form', function(req, res) {
-
     let allOpus = [];
+    let allForms = [];
     var formName = req.query.formname || null
     
     try {
         const opusJson = fs.readFileSync('./server-data/form_opus.json', 'utf8');
+        const formsJson = fs.readFileSync('./server-data/forms.json', 'utf8');
         allOpus = JSON.parse(opusJson);
+        allForms = JSON.parse(formsJson);
     } catch (error) {
         console.error('Error reading musical form list: ', error);
         res.status(500).send('Server Error');
+        return;
     }
 
     if (formName) {
@@ -128,26 +131,26 @@ app.get('/form', function(req, res) {
         formOpus.sort((a, b) => b.formPopularity - a.formPopularity);
         res.json({'FormOpus': formOpus})
     }
-
     else {
-        const formCount = {};
-        allOpus.forEach(obj => {
-            if (formCount[obj['form']]) {
-                formCount[obj['form']]++;  
-            }
-            else {
-                formCount[obj['form']] = 1;
-            }
-        })
-        
-        var entries = Object.entries(formCount)
-        entries.sort( (a, b) => b[1] - a[1])
-        entries = Object.fromEntries(entries)
-        formsArr = Object.keys(entries);
-        res.json({'Forms': formsArr})
+        // Count occurrences of each form
+        const formCounts = {};
+        allOpus.forEach(opus => {
+            formCounts[opus.form] = (formCounts[opus.form] || 0) + 1;
+        });
+
+        // Create array of forms with their categories and count
+        const forms = allForms.forms.map(form => ({
+            name: form.formName,
+            category: form.category,
+            count: formCounts[form.formName] || 0
+        }));
+
+        // Sort forms by count (most frequent first)
+        forms.sort((a, b) => b.count - a.count);
+
+        res.json({'Forms': forms});
     }
-}
-);
+});
 
 app.get('/searchwikiopus', async function(req, res) {
 
