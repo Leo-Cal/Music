@@ -33,7 +33,11 @@ describe('Musical Forms table (FormTable)', () => {
         
         await waitFor(() => {
             expect(screen.getByText('Symphony')).toBeInTheDocument();
+        });
+        await waitFor(() => {
             expect(screen.getByText('Piano Concerto')).toBeInTheDocument();
+        });
+        await waitFor(() => {
             expect(screen.getByText('Piano Sonata')).toBeInTheDocument();
         });
     });
@@ -45,12 +49,12 @@ describe('Musical Forms table (FormTable)', () => {
             </MemoryRouter>
         );
 
-        await waitFor(() => {
-            ['Symphony', 'Piano Concerto', 'Piano Sonata'].forEach((form) => {
+        for (const form of ['Symphony', 'Piano Concerto', 'Piano Sonata']) {
+            await waitFor(() => {
                 const link = screen.getByRole('link', { name: form });
                 expect(link).toHaveAttribute('href', `/form/${encodeURIComponent(form)}`);
             });
-        });
+        }
     });
 
     it('filters forms based on search input', async () => {
@@ -69,7 +73,11 @@ describe('Musical Forms table (FormTable)', () => {
 
         await waitFor(() => {
             expect(screen.queryByText('Symphony')).not.toBeInTheDocument();
+        });
+        await waitFor(() => {
             expect(screen.getByText('Piano Concerto')).toBeInTheDocument();
+        });
+        await waitFor(() => {
             expect(screen.getByText('Piano Sonata')).toBeInTheDocument();
         });
     });

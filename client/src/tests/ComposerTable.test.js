@@ -33,7 +33,11 @@ describe('Composer table (ComposerTable)', () => {
         
         await waitFor(() => {
             expect(screen.getByText('Bach')).toBeInTheDocument();
+        });
+        await waitFor(() => {
             expect(screen.getByText('Mozart')).toBeInTheDocument();
+        });
+        await waitFor(() => {
             expect(screen.getByText('Beethoven')).toBeInTheDocument();
         });
     });
@@ -65,7 +69,11 @@ describe('Composer table (ComposerTable)', () => {
 
         await waitFor(() => {
             expect(screen.getByText(/1685/)).toBeInTheDocument(); // Bach
+        });
+        await waitFor(() => {
             expect(screen.getByText(/1756/)).toBeInTheDocument(); // Mozart
+        });
+        await waitFor(() => {
             expect(screen.getByText(/1770/)).toBeInTheDocument(); // Beethoven
         });
     });
