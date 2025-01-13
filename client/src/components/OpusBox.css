@@ -55,8 +55,8 @@
 }
 
 .opus-description {
-    margin-top: 15px;
-    padding-top: 15px;
+    margin-top: 10px;
+    padding-top: 10px;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
@@ -88,8 +88,8 @@
 }
 
 .opus-box.expanded .opus-description {
-    margin-top: 20px;
-    padding-top: 20px;
+    margin-top: 3px;
+    padding-top: 3px;
 }
 
 /* Updated media queries for mobile devices */
