@@ -229,9 +229,10 @@ router.get('/composer', async function(req, res) {
         const pageQueryParam = {
             action: 'query',
             format: 'json',
-            prop: 'extracts',
+            prop: 'extracts|info',
             exintro: true,
             explaintext: true,
+            inprop: 'url',
             titles: composer
         }
         request( {url: searchUrl, qs: pageQueryParam, json: true}, (err, response, wikiData) => {
@@ -243,8 +244,8 @@ router.get('/composer', async function(req, res) {
                 const wikiQuery = wikiData.query.pages;
                 const pageKey = Object.keys(wikiQuery)[0];
                 const wikiSummary = wikiQuery[`${pageKey}`].extract.split('\n')[0];
-
-                return res.json({composer: composer, summary: wikiSummary});
+                const fullUrl = wikiQuery[`${pageKey}`].fullurl;
+                return res.json({composer: composer, summary: wikiSummary, url:fullUrl});
             }
             else {
                 return res.status(404).send(`${composer} article not found in Wikipedia`)

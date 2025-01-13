@@ -6,6 +6,7 @@ import './OpusTable.css'
 function OpusTable() {
     const [backData, setBackData] = useState([{}]);
     const [description, setDescription] = useState('');
+    const [wikiUrl, setWikiUrl] = useState('');
     const [topForms, setTopForms] = useState([]);
     const apiUrl = process.env.NODE_ENV === 'production'
     ? process.env.REACT_APP_API_BASE_URL
@@ -27,7 +28,10 @@ function OpusTable() {
 
       fetch(`${apiUrl}/wiki/composer?composer=${composerName}`)
         .then(response => response.json())
-        .then(data => { setDescription(data.summary); });
+        .then(data => { 
+            setDescription(data.summary);
+            setWikiUrl(data.url);
+        });
     }, [composerName, apiUrl])
 
     return (
@@ -35,6 +39,13 @@ function OpusTable() {
           <div className='description'>
             <h3>{composerName}</h3>
             <p>{description}</p>
+            {wikiUrl && (
+                <p className="wiki-link">
+                    <a href={wikiUrl} target="_blank" rel="noopener noreferrer">
+                        See more →
+                    </a>
+                </p>
+            )}
             
             {topForms.length > 0 && (
                 <div className="top-forms">
