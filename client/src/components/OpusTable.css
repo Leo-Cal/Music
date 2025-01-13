@@ -1,7 +1,42 @@
+.opus-table {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
 .description {
+    padding: 20px;
     margin-bottom: 20px;
-    padding: 5px;
-    width: 80%;
-    margin-bottom: 10px;
-    margin-left: 40px;
-  }
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.description h3 {
+    font-size: 2rem;
+    margin: 0 0 10px 0;
+    color: #252525;
+}
+
+.description p {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 0;
+    color: #414141;
+}
+
+/* Add media queries for mobile */
+@media screen and (max-width: 768px) {
+    .opus-table {
+        padding: 10px;
+    }
+
+    .description {
+        padding: 15px;
+    }
+
+    .description h3 {
+        font-size: 1.5rem;
+    }
+}
