@@ -16,7 +16,7 @@ function OpusDescription( {composer, opus} ) {
                     opus: opus,
                     composer: composer
                 });
-                const response = await fetch(`${apiUrl}/searchwikiopus?${queryParams}`);
+                const response = await fetch(`${apiUrl}/wiki/opus?${queryParams}`);
                 const data = await response.json();
                 setDescription(data.summary);
                 setError('');

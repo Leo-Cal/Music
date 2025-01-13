@@ -22,9 +22,11 @@
     "querystring": "~0.2.0",
     "react-router-dom": "^6.24.0",
     "request": "2.88.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
     "vercel": "^35.0.2"
   },
-    "engines": {
+  "engines": {
     "node": ">=14.0.0"
   },
   "devDependencies": {

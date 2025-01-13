@@ -17,7 +17,7 @@ function OpusTable() {
     const composerName = pathParts[pathParts.length - 1]
   
     useEffect(() => {
-      fetch(`${apiUrl}/composer/?name=${composerName}`).then(
+      fetch(`${apiUrl}/composer?name=${composerName}`).then(
         response => response.json()).then(
           data => {
             setBackData(data);
@@ -25,7 +25,7 @@ function OpusTable() {
           }
         )
 
-      fetch(`${apiUrl}/searchwikicomposer/?composer=${composerName}`)
+      fetch(`${apiUrl}/wiki/composer?composer=${composerName}`)
         .then(response => response.json())
         .then(data => { setDescription(data.summary); });
     }, [composerName, apiUrl])
