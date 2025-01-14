@@ -4,13 +4,13 @@ import OpusTable from './OpusTable';
 import './ComposerTable.css';
 
 const PERIODS = {
-  'Medieval': { years: [500, 1400], color: '#B4A595' },
-  'Renaissance': { years: [1400, 1600], color: '#AC9D8D' },
-  'Baroque': { years: [1600, 1750], color: '#A49585' },
-  'Classical': { years: [1750, 1820], color: '#9C8D7D' },
-  'Romantic': { years: [1820, 1900], color: '#948575' },
-  'Modern': { years: [1900, 1945], color: '#8C7D6D' },
-  'Contemporary': { years: [1945, 2024], color: '#847565' }
+  'Medieval': { years: [500, 1400], color: '#A99985' },
+  'Renaissance': { years: [1400, 1600], color: '#A99985' },
+  'Baroque': { years: [1600, 1750], color: '#A99985' },
+  'Classical': { years: [1750, 1820], color: '#A99985' },
+  'Romantic': { years: [1820, 1900], color: '#A99985' },
+  'Modern': { years: [1900, 1945], color: '#A99985' },
+  'Contemporary': { years: [1945, 2024], color: '#A99985' }
 };
 
 const ComposerTable = () => {
@@ -77,7 +77,6 @@ const ComposerTable = () => {
                 >
                   <div className="composer-info">
                     <h3>{composer.name}</h3>
-                    <p>b. {composer.birthyear}</p>
                   </div>
                 </Link>
               ))}

@@ -19,14 +19,14 @@ function FormTable() {
     }, [apiUrl]);
 
     const FORM_CATEGORIES = {
-      "Orchestral Works": { color: '#B4A595' },
-      "Concertos": { color: '#AC9D8D' },
-      "Chamber Music": { color: '#A49585' },
-      "Sonatas": { color: '#9C8D7D' },
-      "Sacred & Vocal": { color: '#948575' },
-      "Piano Character Pieces": { color: '#8C7D6D' },
-      "Dance Forms": { color: '#847565' },
-      "Other Forms": { color: '#7C6D5D' }
+      "Orchestral Works": { color: '#A99985' },
+      "Concertos": { color: '#A99985' },
+      "Chamber Music": { color: '#A99985' },
+      "Sonatas": { color: '#A99985' },
+      "Sacred & Vocal": { color: '#A99985' },
+      "Piano Character Pieces": { color: '#A99985' },
+      "Dance Forms": { color: '#A99985' },
+      "Other Forms": { color: '#A99985' }
     };
 
     if (!backData || !backData.Forms) {
