@@ -140,6 +140,10 @@ router.get('/', function(req, res) {
         });
     }
 
+    else if (formName && composerName) {
+        res.status(400).send('Bad Request: Select either composer or form')
+    }
+
     else {
         res.status(400).send('Bad Request: No composer or musical form requested')
     }

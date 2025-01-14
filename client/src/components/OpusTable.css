@@ -131,3 +131,27 @@
 .wiki-link a:hover {
     text-decoration: underline;
 }
+
+.form-filter {
+    margin: 20px 0;
+}
+
+.form-select {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #D9C9A7;
+    border-radius: 4px;
+    background-color: #FFFCF5;
+    min-width: 200px;
+    color: #4A3C31;
+}
+
+.form-select:hover {
+    border-color: #A99985;
+}
+
+.form-select:focus {
+    outline: none;
+    border-color: #A99985;
+    box-shadow: 0 0 0 2px rgba(169, 153, 133, 0.2);
+}

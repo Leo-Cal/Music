@@ -67,3 +67,28 @@
         letter-spacing: 0.3px;
     }
 }
+
+.composer-filter {
+    margin: 20px 0;
+}
+
+.composer-select {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #D9C9A7;
+    border-radius: 4px;
+    background-color: #FFFCF5;
+    width: 100%;
+    max-width: 300px;
+    color: #4A3C31;
+}
+
+.composer-select:hover {
+    border-color: #A99985;
+}
+
+.composer-select:focus {
+    outline: none;
+    border-color: #A99985;
+    box-shadow: 0 0 0 2px rgba(169, 153, 133, 0.2);
+}
