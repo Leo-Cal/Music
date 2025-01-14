@@ -12,7 +12,7 @@ function FormTable() {
       : process.env.REACT_APP_LOCAL_API_BASE_URL;
 
     useEffect(() => {
-      fetch(`${apiUrl}/form`)
+      fetch(`${apiUrl}/forms`)
         .then(response => response.json())
         .then(data => { setBackData(data) })
         .catch(error => console.error('Error fetching forms:', error));

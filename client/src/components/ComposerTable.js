@@ -22,7 +22,7 @@ const ComposerTable = () => {
     : process.env.REACT_APP_LOCAL_API_BASE_URL;
 
   useEffect(() => {
-    fetch(`${apiUrl}/composer`)
+    fetch(`${apiUrl}/composers`)
       .then(response => response.json())
       .then(data => { setBackData(data) })
       .catch(error => console.error('Error fetching composers:', error));

@@ -6,9 +6,10 @@ const cors = require('cors');
 
 // Import routes
 const authRoutes = require('./routes/auth');
-const composerRoutes = require('./routes/composer');
+const composerRoutes = require('./routes/composers');
 const formRoutes = require('./routes/form');
 const wikiRoutes = require('./routes/wiki');
+const opusRoutes = require('./routes/opus');
 const swaggerSetup = require('./swagger');
 
 const PORT = process.env.PORT || 8888;
@@ -26,8 +27,9 @@ swaggerSetup(app);
 
 // Setup routes
 app.use('/', authRoutes);
-app.use('/composer', composerRoutes);
-app.use('/form', formRoutes);
+app.use('/composers', composerRoutes);
+app.use('/forms', formRoutes);
 app.use('/wiki', wikiRoutes);
+app.use('/opus', opusRoutes);
 
 module.exports = app;

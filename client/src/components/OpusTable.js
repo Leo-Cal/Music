@@ -18,7 +18,7 @@ function OpusTable() {
     const composerName = pathParts[pathParts.length - 1]
   
     useEffect(() => {
-      fetch(`${apiUrl}/composer?name=${composerName}`).then(
+      fetch(`${apiUrl}/opus?composer=${composerName}`).then(
         response => response.json()).then(
           data => {
             setBackData(data);

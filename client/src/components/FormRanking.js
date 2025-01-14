@@ -17,14 +17,14 @@ function FormRanking() {
     const formName = pathParts[pathParts.length - 1]
   
     useEffect ( () => {
-      fetch(`${apiUrl}/form?formname=${formName}`)
+      fetch(`${apiUrl}/opus?form=${formName}`)
       .then(response => response.json())
       .then(data => {
         setBackData(data);
         setTopComposers(data.TopComposers || []);
       });
 
-      fetch(`${apiUrl}/form/description?form=${formName}`)
+      fetch(`${apiUrl}/forms/description?form=${formName}`)
       .then(response => response.json())
       .then(data => { setDescription(data.description); });
     }, [formName, apiUrl])
