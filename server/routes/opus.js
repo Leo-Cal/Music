@@ -29,15 +29,27 @@ router.get('/', function(req, res) {
     var composerName = req.query.composer || null
     var formName = req.query.form || null
     
+    // Read the opus.json file once
+    try {
+        const opusJson = fs.readFileSync(path.join(__dirname, '../server-data/opus.json'), 'utf8');
+        allOpus = JSON.parse(opusJson);
+    } catch (error) {
+        console.error('Error reading opus data: ', error);
+        res.status(500).send('Server Error');
+        return;
+    }
+
     if (composerName && !formName) {
-        try {
-            const opusJson = fs.readFileSync(path.join(__dirname, '../server-data/composer_opus.json'), 'utf8');
-            allOpus = JSON.parse(opusJson)
-        } catch (error) {
-            console.error(`Error reading ${composerName} opus: `, error);
-            res.status(500).send('Server Error')
-        }
-        const composerOpus = allOpus.filter(item => item.composer === composerName)
+        const composerOpus = allOpus
+            .filter(item => item.composer === composerName && item.composerRelevant === true)
+            .map(opus => ({
+                opusname: opus.opusname,
+                composer: opus.composer,
+                form: opus.form,
+                composerPopularity: opus.composerPopularity,
+                recordingCount: opus.recordingCount,
+                representativeTrack: opus.representativeTrack
+            }));
         
         // Calculate weighted score for each form
         const formStats = {};
@@ -83,18 +95,18 @@ router.get('/', function(req, res) {
         });           
     }
 
-    else if (formName && !composerName){
-        try {
-            const opusJson = fs.readFileSync(path.join(__dirname, '../server-data/form_opus.json'), 'utf8');
-            allOpus = JSON.parse(opusJson);
-        } catch (error) {
-            console.error('Error reading musical form list: ', error);
-            res.status(500).send('Server Error');
-            return;
-        }
-        // Get all opus from the chosen form
-        const formOpus = allOpus.filter(item => item.form === formName)
-
+    else if (formName && !composerName) {
+        const formOpus = allOpus
+            .filter(item => item.form === formName && item.formRelevant === true)
+            .map(opus => ({
+                opusname: opus.opusname,
+                composer: opus.composer,
+                form: opus.form,
+                formPopularity: opus.formPopularity,
+                recordingCount: opus.recordingCount,
+                representativeTrack: opus.representativeTrack
+            }));
+        
         // Calculate weighted score for each composer
         const composerStats = {};
         

@@ -33,7 +33,7 @@ function OpusBox({ opus, index }) {
                         {getOrdinal(index + 1)} Place
                         {medalImage && <img src={medalImage} alt={`${getOrdinal(index+1)} Medal`} className="medal-image" />}
                     </span>
-                    <h3>{opus.opusName}</h3>
+                    <h3>{opus.opusname}</h3>
                     <p className="composer-name">{opus.composer}</p>
                 </div>
                 <div className="opus-stats">
@@ -44,13 +44,26 @@ function OpusBox({ opus, index }) {
             
             {expanded && (
                 <div className="opus-description">
-                    <OpusDescription opus={opus.opusName} composer={opus.composer}/>
+                    <OpusDescription opus={opus.opusname} composer={opus.composer}/>
                 </div>
             )}
             
-            <button onClick={(e) => { e.stopPropagation(); toggleExpand(); }}>
-                {expanded ? 'Show less' : 'Show more'}
-            </button>
+            <div className="opus-actions">
+                <button onClick={(e) => { e.stopPropagation(); toggleExpand(); }}>
+                    {expanded ? 'Show less' : 'Show more'}
+                </button>
+                {opus.representativeTrack && (
+                    <a 
+                        href={`https://open.spotify.com/track/${opus.representativeTrack}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="spotify-link"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        Listen to this →
+                    </a>
+                )}
+            </div>
         </div>
     );
 }

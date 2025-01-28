@@ -66,8 +66,27 @@
     margin-left: 8px;
 }
 
-.opus-box button {
+.opus-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
     margin-top: 15px;
+}
+
+.spotify-link {
+    color: #1DB954;  /* Spotify green */
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.spotify-link:hover {
+    color: #1ed760;  /* Slightly lighter Spotify green */
+    text-decoration: underline;
+}
+
+.opus-box button {
+    margin-top: 0;  /* Remove top margin since it's handled by opus-actions */
     padding: 8px 16px;
     background-color: #91805c;
     color: white;
@@ -124,5 +143,11 @@
 
     .opus-title .rank {
         font-size: 1rem;
+    }
+
+    .opus-actions {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
     }
 }
